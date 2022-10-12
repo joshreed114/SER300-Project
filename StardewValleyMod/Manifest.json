@@ -1,0 +1,10 @@
+﻿{
+  "Name": "StardewTest",
+  "Author": "JoshReed",
+  "Version": "1.0.1",
+  "Description": "Test Mod to load with SMAPI",
+  "UniqueID": "JoshReed.StardewTest",
+  "EntryDll": "StardewTest.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}
