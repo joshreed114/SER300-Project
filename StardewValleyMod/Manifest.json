@@ -1,10 +1,15 @@
 ﻿{
-  "Name": "StardewTest",
+  "Name": "StardewValleyMod",
   "Author": "JoshReed",
-  "Version": "1.0.1",
-  "Description": "Test Mod to load with SMAPI",
-  "UniqueID": "JoshReed.StardewTest",
-  "EntryDll": "StardewTest.dll",
+  "Version": "1.1",
+  "Description": "Test Mod to load custom objects and assets with SMAPI",
+  "UniqueID": "JoshReed.StardewValleyMod",
+  "EntryDLL":  "StardewValleyMod.dll",
   "MinimumApiVersion": "3.0.0",
-  "UpdateKeys": []
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.JsonAssets"
+    }
+  ]
 }

@@ -6,8 +6,16 @@
 
   <ItemGroup>
     <None Remove="Pathoschild.Stardew.ModBuildConfig" />
+    <None Remove="assets\json-assets\" />
+    <None Remove="assets\json-assets\Crops\" />
+    <None Remove="assets\json-assets\Objects\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets\json-assets\" />
+    <Folder Include="assets\json-assets\Crops\" />
+    <Folder Include="assets\json-assets\Objects\" />
   </ItemGroup>
 </Project>
