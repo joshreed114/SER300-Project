@@ -1,0 +1,53 @@
+{
+    "Name": "Template Crop",
+    "Product": "Template Object",
+    "SeedName": "Template Crop Seeds",
+    "SeedDescription": "Plant these in Spring orn Summer. Takes 9 days to mature, and continues to produce after the first harvest.",
+    "Type": "Fruit",
+    "Seasons": ["spring", "summer"],
+    "Phases": [1,2,3,2,1],
+    "RegrowthPhase": 2,
+    "HarvestWithScythe": true,
+    "TrellisCrop": false,
+    "Colors": null,
+    "Bonus":
+    {
+        "MinimumPerHarvest": 2,
+        "MaximumPerHarvest": 3,
+        "MaxIncreasePerFarmLevel": 5,
+        "ExtraChance": 0.0,
+    },
+    "SeedPurchasePrice": 500,
+    "SeedPurchaseFrom": "Pierre",
+    "SeedPurchaseRequirements": [
+"f pierre 500",
+],
+    "SeedNameLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+        //"fr": "",
+        //"hu": "",
+        //"it": "",
+        //"ja": "",
+        //"pt": "",
+        //"ru": "",
+        //"tr": "",
+        //"zh": "",
+    },
+    "SeedDescriptionLocalization":
+    {
+        //"es": "",
+        //"ko": "",
+        //"de": "",
+        //"fr": "",
+        //"hu": "",
+        //"it": "",
+        //"ja": "",
+        //"pt": "",
+        //"ru": "",
+        //"tr": "",
+        //"zh": "",
+    }
+}

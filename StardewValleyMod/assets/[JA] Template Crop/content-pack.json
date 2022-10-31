@@ -1,0 +1,12 @@
+{
+    "Name": "Template crops",
+    "Author":"Stunky McDoo/NRC5Skyrim",
+    "Description": "A JSON Asset template file for making a crop.",
+    "Version": "1.0.0",
+    "MinimumApiVersion": "2.10.0",
+    "UniqueID": "StunkysCropTemplate",
+    "ContentPackFor":
+    {
+        "UniqueID": "spacechase0.JsonAssets"
+    }
+}
