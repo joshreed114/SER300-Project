@@ -1,0 +1,50 @@
+﻿{
+  "Name": "Watermelon",
+  "Product": "Watermelon",
+  "SeedName": "Watermelon Seeds",
+  "SeedDescription": "Plant these in the Summer. Takes 14 days to mature, and continues to produce after the first harvest.",
+  "Type": "Fruit",
+  "Seasons": [ "summer" ],
+  "Phases": [ 1, 2, 3, 3, 3 ],
+  "RegrowthPhase": -1,
+  "HarvestWithScythe": false,
+  "TrellisCrop": false,
+  "Colors": null,
+  "Bonus": {
+    "MinimumPerHarvest": 1,
+    "MaximumPerHarvest": 1,
+    "MaxIncreasePerFarmLevel": 1,
+    "ExtraChance": 0.0
+  },
+  "SeedPurchasePrice": 100,
+  "SeedPurchaseFrom": "Pierre",
+  "SeedPurchaseRequirements": [
+
+  ],
+  "SeedNameLocalization": {
+    //"es": "",
+    //"ko": "",
+    //"de": "",
+    //"fr": "",
+    //"hu": "",
+    //"it": "",
+    //"ja": "",
+    //"pt": "",
+    //"ru": "",
+    //"tr": "",
+    //"zh": "",
+  },
+  "SeedDescriptionLocalization": {
+    //"es": "",
+    //"ko": "",
+    //"de": "",
+    //"fr": "",
+    //"hu": "",
+    //"it": "",
+    //"ja": "",
+    //"pt": "",
+    //"ru": "",
+    //"tr": "",
+    //"zh": "",
+  }
+}

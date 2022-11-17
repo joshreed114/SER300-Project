@@ -1,0 +1,50 @@
+{
+  "Name": "Kiwi",
+  "Product": "Kiwi",
+  "SeedName": "Kiwi Seeds",
+  "SeedDescription": "Plant these in Spring or in Fall. Takes 8 days to mature, and continues to produce after the first harvest.",
+  "Type": "Fruit",
+  "Seasons": [ "spring", "summer" ],
+  "Phases": [ 1, 2, 2, 2, 1 ],
+  "RegrowthPhase": 4,
+  "HarvestWithScythe": false,
+  "TrellisCrop": false,
+  "Colors": null,
+  "Bonus": {
+    "MinimumPerHarvest": 3,
+    "MaximumPerHarvest": 4,
+    "MaxIncreasePerFarmLevel": 4,
+    "ExtraChance": 0.0
+  },
+  "SeedPurchasePrice": 100,
+  "SeedPurchaseFrom": "Pierre",
+  "SeedPurchaseRequirements": [
+    
+  ],
+  "SeedNameLocalization": {
+    //"es": "",
+    //"ko": "",
+    //"de": "",
+    //"fr": "",
+    //"hu": "",
+    //"it": "",
+    //"ja": "",
+    //"pt": "",
+    //"ru": "",
+    //"tr": "",
+    //"zh": "",
+  },
+  "SeedDescriptionLocalization": {
+    //"es": "",
+    //"ko": "",
+    //"de": "",
+    //"fr": "",
+    //"hu": "",
+    //"it": "",
+    //"ja": "",
+    //"pt": "",
+    //"ru": "",
+    //"tr": "",
+    //"zh": "",
+  }
+}

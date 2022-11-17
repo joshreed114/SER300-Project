@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using Netcode;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceCore;
+using SpaceShared;
+using SpaceShared.APIs;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewModdingAPI.Framework;
 using StardewValley;
-using StardewValley.Monsters;
+using StardewValley.BellsAndWhistles;
+using StardewValley.Menus;
+using StardewValleyMod.Framework;
 using System.IO;
 
 namespace StardewValleyMod
@@ -18,60 +26,92 @@ namespace StardewValleyMod
 
     public class ModEntry : Mod
     {
-        // JSONAssets API instance
-        private IJsonAssetsApi JsonAssets;
+        /******
+         * Fields
+         *****/
+        private IJsonAssetsApi jsonAssets;
+        private ISpaceCoreApi spaceCore;
 
+        private ToolManager ToolManager;
+
+        // TESTING
         // Custom Object IDs 
         int kiwiID;
         int kiwiSeedsID;
 
+
+        /******
+         * Accessors
+         ******/
+        public static Mod Instance;
+
+
         /*******
          * Public Methods
         *******/
-
         public override void Entry(IModHelper helper)
         {
-            //TODO add config?
-            //this.Config = helper.ReadConfig<ModConfig>();
+            ModEntry.Instance = this;
 
-            // hook events
-            IModEvents events = helper.Events;
+            this.ToolManager = new ToolManager(this.Helper.Reflection);
+
+        //TODO add config
+        //this.Config = helper.ReadConfig<ModConfig>(); // ?
+
+        // hook events
+        IModEvents events = helper.Events;
 
             events.GameLoop.GameLaunched += this.OnGameLaunched;
-
             events.GameLoop.SaveLoaded += this.OnSaveLoaded;
-
             events.Input.ButtonPressed += this.OnButtonPressed;
-
             events.Player.InventoryChanged += this.OnInventoryChange;
-
+            events.Display.MenuChanged += this.OnMenuChanged;
             events.GameLoop.UpdateTicked += this.OnUpdateTicked;
 
-            //events.Player.Warped += this.OnWarped;
-
-            // * Harvester Tool -- Buy from Clint? *
-
-            //
-
+            // * Harvester Tool
+            //HarvesterTool.Texture = helper.ModContent.Load<IRawTextureData>("assets/harvesterscythe.png"); // IRawTextureData
+            HarvesterTool.Texture = helper.ModContent.Load<Texture2D>("assets/harvesterscythe.png"); // Texture2D
         }
+
 
         /*******
          * Private Methods
         *******/
+
         /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            JsonAssets = this.Helper.ModRegistry.GetApi<IJsonAssetsApi>("spacechase0.JsonAssets");
-            if (JsonAssets == null)
-            {
-                Monitor.Log("Can't load Json Assets API, which is needed for test mod to function", LogLevel.Error);
-            }
+            //  Gets APIs from other Frameworks/Mods
+            jsonAssets = this.Helper.ModRegistry.GetApi<IJsonAssetsApi>("spacechase0.JsonAssets");
+            spaceCore = this.Helper.ModRegistry.GetApi<ISpaceCoreApi>("spacechase0.SpaceCore");
+
+            spaceCore.RegisterSerializerType(typeof(HarvesterTool));
+
+            if (jsonAssets != null)
+                jsonAssets.LoadAssets(Path.Combine(Helper.DirectoryPath, "assets", "json-assets"));
             else
-            {
-                JsonAssets.LoadAssets(Path.Combine(Helper.DirectoryPath, "assets", "json-assets"));
-            }
+                Monitor.Log("Can't load Json Assets API, which is needed for test mod to function", LogLevel.Error);
+        }
+
+        // Adds custom tool to Pierre's shop
+        /// <inheritdoc cref="IDisplayEvents.MenuChanged">
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
+        {
+            if (e.NewMenu is not ShopMenu { portraitPerson: { Name: "Pierre" } } pierreMenu)
+                return;
+
+            Monitor.Log("Adding Harvester Tool to Pierre's shop.");
+
+            var forSale = pierreMenu.forSale;
+            var itemPriceAndStock = pierreMenu.itemPriceAndStock;
+
+            var tool = new HarvesterTool();
+            forSale.Add(tool);
+            itemPriceAndStock.Add(tool, new[] { 3000, 1 });
         }
 
         /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>
@@ -79,10 +119,10 @@ namespace StardewValleyMod
         /// <param name="e">The event arguments.</param>
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            if (JsonAssets != null)
+            if (jsonAssets != null)
             {
-                kiwiID = JsonAssets.GetObjectId("Kiwi");
-                kiwiSeedsID = JsonAssets.GetObjectId("Kiwi Seeds");
+                kiwiID = jsonAssets.GetObjectId("Kiwi");
+                kiwiSeedsID = jsonAssets.GetObjectId("Kiwi Seeds");
                 
                 if (kiwiID == -1)
                 {
@@ -103,12 +143,13 @@ namespace StardewValleyMod
             }
         }
 
+        // Test method for tick updates
         /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event arguments.</param>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-
+            this.ToolManager.OnUpdateTicked(e);
         }
 
         // Test method for button events
@@ -147,8 +188,8 @@ namespace StardewValleyMod
                 this.Monitor.Log($"{e.Player} removed {e.QuantityChanged} {e.Removed}", LogLevel.Debug);
         }
 
-        // Helper Methods
-        
-
+        /*******
+         * Helper Methods
+        *******/
     }
 }
