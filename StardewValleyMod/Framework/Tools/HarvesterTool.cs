@@ -161,19 +161,6 @@ namespace StardewValleyMod
                             dirt.destroyCrop(tile, showAnimation: false, location);
                             break;
                         }
-                        /*
-                        for(int i = 0; i < 100 && temp.crop.fullyGrown.Value; i++)
-                        {
-                            if (temp.crop.harvest((int)tile.X, (int)tile.Y, temp))
-                            {
-                                bool isScytheCrop = dirt.crop.harvestMethod.Value == Crop.sickleHarvest;
-
-                                dirt.destroyCrop(tile, showAnimation: isScytheCrop, location);
-                                if (!isScytheCrop && location is IslandLocation && Game1.random.NextDouble() < 0.05)
-                                    Game1.player.team.RequestLimitedNutDrops("IslandFarming", location, (int)tile.X * 64, (int)tile.Y * 64, 5);
-                            }
-                        }
-                        */
                         break;
 
                     case Bush bush when bush.size.Value == Bush.greenTeaBush && bush.getAge() == Bush.daysToMatureGreenTeaBush:
