@@ -144,17 +144,22 @@ namespace StardewValleyMod
                 switch(target)
                 {
                     case HoeDirt dirt:
+                        if (dirt.crop == null)
+                            break;
+                        
                         HoeDirt temp = (HoeDirt)target;
-                        for(int i = 0; i < 100 && temp.crop.fullyGrown.Value; i++)
+                        if(dirt.crop.harvest((int)tile.X, (int)tile.Y, dirt))
                         {
-                            if (temp.crop.harvest((int)tile.X, (int)tile.Y, temp))
-                            {
-                                bool isScytheCrop = dirt.crop.harvestMethod.Value == Crop.sickleHarvest;
-
-                                dirt.destroyCrop(tile, showAnimation: isScytheCrop, location);
-                                if (!isScytheCrop && location is IslandLocation && Game1.random.NextDouble() < 0.05)
-                                    Game1.player.team.RequestLimitedNutDrops("IslandFarming", location, (int)tile.X * 64, (int)tile.Y * 64, 5);
-                            }
+                            bool isScytheCrop = dirt.crop.harvestMethod.Value == Crop.sickleHarvest;
+                            dirt.destroyCrop(tile, showAnimation: isScytheCrop, location);
+                            if (!isScytheCrop && location is IslandLocation && Game1.random.NextDouble() < 0.05)
+                                Game1.player.team.RequestLimitedNutDrops("IslandFarming", location, (int)tile.X * 64, (int)tile.Y * 64, 5);
+                            break;
+                        }
+                        if (dirt.crop.hitWithHoe((int)tile.X, (int)tile.Y, location, dirt))
+                        {
+                            dirt.destroyCrop(tile, showAnimation: false, location);
+                            break;
                         }
                         break;
 
@@ -162,7 +167,7 @@ namespace StardewValleyMod
                         bush.performUseAction(tile, location);
                         break;
 
-                    case FruitTree fruitTree when !fruitTree.stump.Value && fruitTree.growthStage.Value == FruitTree.maxFruitsOnTrees:
+                    case FruitTree fruitTree when !fruitTree.stump.Value && fruitTree.fruitsOnTree.Value > 0:
                         fruitTree.shake(tile, false, location);
                         break;
 
@@ -170,6 +175,7 @@ namespace StardewValleyMod
             }
         }
 
+        /*
             /// <summary>Grow crops and trees around the given position.</summary>
             /// <param name="origin">The origin around which to grow crops and trees.</param>
             /// <param name="radius">The number of tiles in each direction to include, not counting the origin.</param>
@@ -234,6 +240,7 @@ namespace StardewValleyMod
                 }
             }
         }
+        */
 
         /// <summary>Get the tile coordinates in a map area.</summary>
         /// <param name="origin">The center tile coordinate.</param>
