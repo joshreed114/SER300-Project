@@ -19,7 +19,6 @@
     <Folder Include="assets\json-assets\" />
     <Folder Include="assets\json-assets\Crops\" />
     <Folder Include="assets\json-assets\Objects\" />
-    <Folder Include="Framework\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SpaceCore">
