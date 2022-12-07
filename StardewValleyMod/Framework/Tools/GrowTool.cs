@@ -18,20 +18,17 @@ using SObject = StardewValley.Object;
 
 namespace StardewValleyMod
 {
-    [XmlType("Mods_pegoons_HarvesterScythe")]
-    public class HarvesterTool : BaseTool
+    [XmlType("Mods_pegoons_GrowWand")]
+    public class GrowTool : BaseTool
     {
         // Texture for custom tool to use
         internal static Texture2D Texture;
 
-        // Saves previous harvest spot
-        private Vector2 LastHarvestOrigin;
-
-        public HarvesterTool()
+        public GrowTool()
         {
             this.Category = SObject.toolCategory;
-            this.Name = "Harvesting Scythe";
-            this.ParentSheetIndex = MeleeWeapon.scythe;
+            this.Name = "Grow Wand";
+            this.ParentSheetIndex = MeleeWeapon.club;
 
             this.minDamage.Value = 1;
             this.maxDamage.Value = 1;
@@ -47,13 +44,13 @@ namespace StardewValleyMod
             this.Stack = 1;
         }
 
-        public override Item getOne() { return new HarvesterTool(); }
+        public override Item getOne() { return new GrowTool(); }
 
-        protected override string loadDisplayName() { return "Harvesting Scythe"; }
+        protected override string loadDisplayName() { return "Grow Wand"; }
 
-        protected override string loadDescription() { return "Scythe for harvesting crops in a 2 tile radius."; }
+        protected override string loadDescription() { return "Wand that uses stamina to grwo crops in a 1 tile radius."; }
 
-        public override int salePrice() { return 500; }
+        public override int salePrice() { return 1000; }
 
         public override string getDescription() { return this.loadDescription(); }
 
@@ -87,19 +84,15 @@ namespace StardewValleyMod
                     who.FarmerSprite.currentAnimationIndex);
 
                 Vector2 playerTile = Game1.player.getTileLocation();
-                if (playerTile != this.LastHarvestOrigin)
-                {
-                    this.Harvest(playerTile, radius: 2);
-                    this.LastHarvestOrigin = playerTile;
-                }
-
+                    this.Grow(playerTile, radius: 1);
+                    //who.Stamina -= 40f;
             }
         }
 
         /// <summary>Grow crops and trees around the given position.</summary>
         /// <param name="origin">The origin around which to grow crops and trees.</param>
         /// <param name="radius">The number of tiles in each direction to include, not counting the origin.</param>
-        public void Harvest(Vector2 origin, int radius)
+        public void Grow(Vector2 origin, int radius)
         {
             // get location
             GameLocation location = Game1.currentLocation;
@@ -116,7 +109,7 @@ namespace StardewValleyMod
                     if (location.terrainFeatures.TryGetValue(tile, out TerrainFeature terrainFeature))
                     {
                         if (terrainFeature is HoeDirt dirt)
-                            target = dirt;
+                            target = dirt.crop;
                         else if (terrainFeature is Bush or FruitTree or Tree)
                             target = terrainFeature;
                     }
@@ -125,43 +118,37 @@ namespace StardewValleyMod
                     if (target == null && location.objects.TryGetValue(tile, out SObject obj) && obj is IndoorPot pot)
                     {
                         if (pot.hoeDirt.Value is { } dirt)
-                            target = dirt;
+                            target = dirt.crop;
 
                         if (pot.bush.Value is { } bush)
                             target = bush;
                     }
                 }
 
+                // grow target
                 switch (target)
                 {
-                    case HoeDirt dirt:
-                        if (dirt.crop == null)
-                            break;
-
-                        HoeDirt temp = (HoeDirt)target;
-                        if (dirt.crop.harvest((int)tile.X, (int)tile.Y, dirt))
-                        {
-                            bool isScytheCrop = dirt.crop.harvestMethod.Value == Crop.sickleHarvest;
-                            dirt.destroyCrop(tile, showAnimation: isScytheCrop, location);
-                            if (!isScytheCrop && location is IslandLocation && Game1.random.NextDouble() < 0.05)
-                                Game1.player.team.RequestLimitedNutDrops("IslandFarming", location, (int)tile.X * 64, (int)tile.Y * 64, 5);
-                            break;
-                        }
-                        if (dirt.crop.hitWithHoe((int)tile.X, (int)tile.Y, location, dirt))
-                        {
-                            dirt.destroyCrop(tile, showAnimation: false, location);
-                            break;
-                        }
+                    case Crop crop:
+                        // grow crop using newDay to apply full logic like giant crops, wild seed randomization, etc
+                        for (int i = 0; i < 100 && !crop.fullyGrown.Value; i++)
+                            crop.newDay(HoeDirt.watered, HoeDirt.fertilizerHighQuality, (int)tile.X, (int)tile.Y, location);
+                        // Regrows crops that can regenerate
+                        crop.growCompletely();
                         break;
 
-                    case Bush bush when bush.size.Value == Bush.greenTeaBush && bush.getAge() == Bush.daysToMatureGreenTeaBush:
-                        bush.performUseAction(tile, location);
+                    case Bush bush when bush.size.Value == Bush.greenTeaBush && bush.getAge() < Bush.daysToMatureGreenTeaBush:
+                        bush.datePlanted.Value = (int)(Game1.stats.DaysPlayed - Bush.daysToMatureGreenTeaBush);
+                        bush.dayUpdate(location, tile); // update source rect, grow tea leaves, etc
                         break;
 
-                    case FruitTree fruitTree when !fruitTree.stump.Value && fruitTree.fruitsOnTree.Value > 0:
-                        fruitTree.shake(tile, false, location);
+                    case FruitTree fruitTree when !fruitTree.stump.Value && fruitTree.growthStage.Value < FruitTree.treeStage:
+                        fruitTree.growthStage.Value = Tree.treeStage;
+                        fruitTree.daysUntilMature.Value = 0;
                         break;
 
+                    case Tree tree when !tree.stump.Value && tree.growthStage.Value < Tree.treeStage:
+                        tree.growthStage.Value = Tree.treeStage;
+                        break;
                 }
             }
         }
