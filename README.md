@@ -19,7 +19,7 @@ Stardew Valley is a game written in C# using Microsoft's .NET, and XNA framework
     * [Windows](https://stardewvalleywiki.com/Modding:Installing_SMAPI_on_Windows)
     * [Mac](https://stardewvalleywiki.com/Modding:Installing_SMAPI_on_Mac)
     * [Linux](https://stardewvalleywiki.com/Modding:Installing_SMAPI_on_Linux)
-4. Download the release version of this mod
+4. Download the [latest release](https://github.com/josh-reed-QU/SER300-Project/releases) of this mod
 5. Extract the mod folder from the zip file
 6. Move/Paste the mod into the "Mods" folder in your game directory.
 
