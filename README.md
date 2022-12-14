@@ -43,3 +43,8 @@ Stardew Valley is a game written in C# using Microsoft's .NET, and XNA framework
 * [Existing SMAPI Mod List](https://smapi.io/mods/)
 * [Aseprite](https://www.aseprite.org/) is a software helpful for creating pixel art. Available for purchase, or free to compile.
 
+### Useful Open Source Mod Repos, Mod authors
+---
+* [Pathoschild](https://github.com/Pathoschild/StardewMods)
+* [Spacechase0](https://github.com/spacechase0/StardewValleyMods) - Modified logic from BugNet for creating and drawing custom tools, from game's source code.
+* [CJBok](https://github.com/CJBok/SDV-Mods) - Modified logic to harvest and grow plants in a radius.
