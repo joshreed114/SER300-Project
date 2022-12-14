@@ -75,18 +75,18 @@ namespace StardewValleyMod
         public override void tickUpdate(GameTime time, Farmer who)
         {
             base.tickUpdate(time, who);
-            if (who.FarmerSprite.isUsingWeapon())
-            {
+            //if (who.FarmerSprite.isUsingWeapon())
+            //{
 
-                Vector2 toolLoc = who.GetToolLocation(true);
-                Vector2 a = Vector2.Zero, b = Vector2.Zero;
-                Rectangle area = this.getAreaOfEffect((int)toolLoc.X, (int)toolLoc.Y, who.facingDirection, ref a, ref b, who.GetBoundingBox(),
-                    who.FarmerSprite.currentAnimationIndex);
+            //    Vector2 toolLoc = who.GetToolLocation(true);
+            //    Vector2 a = Vector2.Zero, b = Vector2.Zero;
+            //    Rectangle area = this.getAreaOfEffect((int)toolLoc.X, (int)toolLoc.Y, who.facingDirection, ref a, ref b, who.GetBoundingBox(),
+            //        who.FarmerSprite.currentAnimationIndex);
 
-                Vector2 playerTile = Game1.player.getTileLocation();
-                    this.Grow(playerTile, radius: 1);
-                    //who.Stamina -= 40f;
-            }
+            //    Vector2 playerTile = Game1.player.getTileLocation();
+            //    this.Grow(playerTile, radius: 1);
+            //    who.Stamina -= 40f;
+            //}
         }
 
         /// <summary>Grow crops and trees around the given position.</summary>

@@ -26,6 +26,7 @@ namespace StardewValleyMod
         private IJsonAssetsApi jsonAssets;
         private ISpaceCoreApi spaceCore;
 
+        // TODO: unused?
         private ToolManager ToolManager;
 
         // TESTING
