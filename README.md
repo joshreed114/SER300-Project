@@ -21,7 +21,8 @@ Stardew Valley is a game written in C# using Microsoft's .NET, and XNA framework
     * [Linux](https://stardewvalleywiki.com/Modding:Installing_SMAPI_on_Linux)
 4. Download the [latest release](https://github.com/josh-reed-QU/SER300-Project/releases) of this mod
 5. Extract the mod folder from the zip file
-6. Move/Paste the mod into the "Mods" folder in your game directory.
+6. Download [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720) and [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348)
+7. Move/Paste the mods into the "Mods" folder in your game directory.
 
 ## Setup & Getting Started (Developer)
 ---
